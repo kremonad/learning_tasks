@@ -12,11 +12,11 @@ start_time = time.time()
 data1 = [None] * elements_count
 for data_index in range(elements_count):
     # Заполняем элементы списка по индексу.
-    data1[data_index] = f'Some new value {data_index}'
+    data1[data_index] = f"Some new value {data_index}"
 # Печатаем время выполнения.
 print(
-    'Создание списка с 10 млн пустых элементов и его заполнение:', 
-    time.time() - start_time
+    "Создание списка с 10 млн пустых элементов и его заполнение:",
+    time.time() - start_time,
 )
 
 # Эксперимент 2
@@ -26,9 +26,9 @@ start_time = time.time()
 data2 = []
 for data_index in range(elements_count):
     # Добавляем новые элементы в конец списка.
-    data2.append(f'some new value {data_index}')
+    data2.append(f"some new value {data_index}")
 # Печатаем время выполнения.
 print(
-    'Создание пустого списка и добавление в него 10 млн элементов:', 
-    time.time() - start_time
+    "Создание пустого списка и добавление в него 10 млн элементов:",
+    time.time() - start_time,
 )

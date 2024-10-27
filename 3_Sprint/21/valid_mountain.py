@@ -2,9 +2,9 @@ def valid_mountain_array(test_array):
     top_count = 0
     down_count = 0
     for i in range(1, len(test_array) - 1):
-        previous = test_array[i-1]
+        previous = test_array[i - 1]
         now = test_array[i]
-        next = test_array[i+1]
+        next = test_array[i + 1]
         if previous < now > next:
             top_count += 1
         if now > next:
@@ -18,7 +18,8 @@ def valid_mountain_array(test_array):
     else:
         return False
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     mountain = input()
     mountain_list = [int(x) for x in mountain.split()]
     print(valid_mountain_array(mountain_list))
