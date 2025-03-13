@@ -1,0 +1,35 @@
+/* Добавочки */
+h2 {
+    font-size : 1.5rem;
+    margin-top: 0;
+}
+code {
+    font-size: 105%;
+}
+
+.callout {
+    background: url("img/bulb.svg") no-repeat 10px 15px / 3% #FFE98E;
+    padding   : 1rem 1rem 1rem 3.2rem;
+}
+
+#footer {
+    background   : url("img/logo.svg") no-repeat 100% 10px / 23%;
+    padding-right: 250px;
+    min-height   : 40px;
+    white-space  : initial;
+}
+
+#saying {
+    color: #fff;
+}
+
+#saying .text {
+    font-size  : 1.3rem;
+    line-height: 1.5rem;
+}
+
+#saying .src {
+    font-size : 0.98rem;
+    font-style: italic;
+    text-align: right;
+}

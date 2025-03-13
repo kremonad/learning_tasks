@@ -1,0 +1,821 @@
+
+<!-- saved from url=(0084)https://code.s3.yandex.net/Python-dev/cheatsheets/028-sql-shpora/028-sql-shpora.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SQL&nbsp;| Я.Шпора</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon-16x16.png">
+<link rel="manifest" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/site.webmanifest">
+<link rel="mask-icon" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="https://code.s3.yandex.net/Python-dev/cheatsheets/static/ico/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="../static/ico/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<link href="./SQL _ Я.Шпора_files/prism.css" rel="stylesheet">
+<script src="./SQL _ Я.Шпора_files/prism.js.Без названия"></script>
+<link href="./SQL _ Я.Шпора_files/custom.css" rel="stylesheet">
+<script src="./SQL _ Я.Шпора_files/custom.js.Без названия"></script>
+<!--<base target="_blank">--><base href="." target="_blank">
+</head><body><article id="18e3bc66-632d-4264-b151-e6ff8f91aef5" class="page sans"><header><h1 class="page-title">SQL<strong>&nbsp;| Я.Шпора</strong></h1><p class="page-description"></p></header><div class="page-body"><h3 id="a42937f1-b55a-432d-b6ba-985f4bbcf158" class="">Работа с SQLite из консоли</h3><pre id="dc5d11a1-d52d-4bb2-9613-e91533423d6d" class="code language-bash" tabindex="0"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all"><span class="token comment"># Команда для работы с виртуальной базой (она будет удалена после выхода из терминала):</span>
+sqlite3
+
+<span class="token comment"># Подключение к реальной базе (в примере - db.sqlite)</span>
+sqlite3 db.sqlite
+<span class="token comment"># Включить вывод результатов запросов в табличном виде:</span>
+.mode <span class="token function">column</span></code></pre><h3 id="6c41e1b3-2691-4c27-b033-121fd386f8bc" class="">Работа с SQLite из Python</h3><pre id="db984e7f-ede3-4e94-bdef-a82c3ad930fa" class="code language-python" tabindex="0"><code class="language-python"><span class="token keyword">import</span> sqlite3
+
+<span class="token comment"># Если файла db.sqlite нет - он будет создан; </span>
+<span class="token comment"># будет создано соединение с базой.</span>
+con <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">'db.sqlite'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Создаём объект cursor для работы с БД:</span>
+cur <span class="token operator">=</span> con<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Готовим SQL-запрос и сохраняем в переменную (запрос - это просто строка):</span>
+query <span class="token operator">=</span> <span class="token triple-quoted-string string">'''
+CREATE TABLE IF NOT EXISTS имя_таблицы(
+    имя_столбца ТИП_СТОЛБЦА PRIMARY KEY,
+    имя_столбца ТИП_СТОЛБЦА 
+);
+'''</span>
+<span class="token comment"># Для выполнения одиночного запроса применяем метод cur.execute():</span>
+cur<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>query<span class="token punctuation">)</span>
+
+<span class="token comment"># Закрываем соединение с БД.</span>
+con<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre><h2 id="8fbdf15c-f860-4bdd-9b6f-bba03893bff7" class="">Создание таблиц</h2><pre id="05ef4465-5129-471e-8524-b4fc5a3db834" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> имя_таблицы<span class="token punctuation">(</span>
+    имя_столбца ТИП_СТОЛБЦА <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    имя_столбца ТИП_СТОЛБЦА<span class="token punctuation">;</span></code></pre><p id="1dd49074-080b-48d6-9768-9fc06e9213a5" class="">К столбцу могут быть применены ограничения:</p><ul id="e8cb3a8c-db70-42fd-8383-860934b90bb5" class="bulleted-list"><li style="list-style-type:disc">NOT NULL — обязательное поле</li></ul><ul id="4f69e4c4-e0ea-4f6e-8da0-b4d50cd6091c" class="bulleted-list"><li style="list-style-type:disc">UNIQUE — значение должно быть уникально в пределах таблицы</li></ul><p id="4e21cdd7-ec1d-4797-83e1-e626311259ec" class="">SQLite поддерживает пять типов данных:</p><ul id="93b0ccd3-aaad-470f-b724-922440009932" class="bulleted-list"><li style="list-style-type:disc">NULL — отсутствие значения;</li></ul><ul id="3afda36c-b310-434a-8692-e9260843a5f1" class="bulleted-list"><li style="list-style-type:disc">INTEGER — целое число;</li></ul><ul id="d2ab5d6a-0b1e-4701-a2ae-86c3c4583e45" class="bulleted-list"><li style="list-style-type:disc">REAL — дробное число;</li></ul><ul id="adcd50b1-2ada-43ed-a5c5-9129638ed1bf" class="bulleted-list"><li style="list-style-type:disc">TEXT — текст;</li></ul><ul id="f3e492ef-8ace-4211-8566-c93fc9022aa6" class="bulleted-list"><li style="list-style-type:disc">BLOB — двоичные данные.</li></ul><p id="701a5fe0-2658-41ca-ac46-00c1c107220f" class="">В других БД используются и другие типы.</p><h2 id="bf9fbe76-76a5-4513-8b35-a73c31ccd476" class="">Наполнение БД информацией из кода Python</h2><p id="bac92100-bf7d-4b6c-ada0-0a2afa208624" class="">Создаём и отправляем запрос к таблице с именем <code>content</code>, содержащей три поля:</p><pre id="69671040-4edd-4250-9317-f1b3a76f298e" class="code language-python" tabindex="0"><code class="language-python"><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+список_контента <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">(</span>строка_1_поле_1<span class="token punctuation">,</span> строка_1_поле_2<span class="token punctuation">,</span> строка_1_поле_3<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span>строка_2_поле_1<span class="token punctuation">,</span> строка_2_поле_2<span class="token punctuation">,</span> строка_2_поле_3<span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span>
+
+<span class="token comment"># Для выполнения нескольких запросов применяем метод cur.executemany():</span>
+cur<span class="token punctuation">.</span>executemany<span class="token punctuation">(</span><span class="token string">'INSERT INTO content VALUES(?, ?, ?);'</span><span class="token punctuation">,</span> список_контента<span class="token punctuation">)</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre><h2 id="846f2a54-e423-4c4f-b04a-0e7596dab2eb" class="">Типы связей между таблицами реляционных БД</h2><p id="294c82f5-cf55-4934-bbbf-aa01d3992856" class="">В связанных таблицах должно быть поле <em>primary key</em> (PK, значение, уникальное в пределах одной таблицы), а в ссылающихся таблицах — поля с внешними ключами (FK, <em>foreign key</em>), в которых будет указано, на какую запись связанной таблицы ссылается текущая запись.</p><h3 id="6585dcdd-9ea8-407b-9d6a-6ea71d4e014f" class="">Связь «один-к-одному»</h3><p id="4ad5f45c-1312-489e-9c50-e4f4c9484eb8" class="">У каждого фильма в <strong>video_products </strong>обязательно есть оригинальное название из <strong>original_titles</strong>.</p><figure id="4d3746d7-52d2-4051-841b-27310c92dc9f" class="image"><a href="./SQL _ Я.Шпора_files/Untitled.png"><img style="width:2880px" src="./SQL _ Я.Шпора_files/Untitled.png"></a></figure><pre id="c3294a66-ae2b-4694-ad2e-f1561481faed" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> original_titles<span class="token punctuation">(</span>
+    id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    name <span class="token keyword">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> video_products<span class="token punctuation">(</span>
+    id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    name <span class="token keyword">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    original_title_id <span class="token keyword">INTEGER</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">UNIQUE</span><span class="token punctuation">,</span>
+    <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>original_title_id<span class="token punctuation">)</span> <span class="token keyword">REFERENCES</span> original_titles<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><h3 id="967c738b-7d7c-4fc9-bb5b-ccb1114ee7d5" class="">Связь «один-ко-многим» и «многие-к-одному»</h3><p id="03de26e9-480f-40f7-acdd-fc8c1dfbed7e" class="">Фильм из таблицы <strong>video_products </strong>может относиться только к одному типу <strong>product_types</strong>, а несколько фильмов могут быть одного типа; для любого фильма <strong>обязательно</strong> должен быть указан его тип.</p><figure id="87ea3bf0-219e-4206-8a57-6bb270d89299" class="image"><a href="./SQL _ Я.Шпора_files/Untitled 1.png"><img style="width:2880px" src="./SQL _ Я.Шпора_files/Untitled 1.png"></a></figure><pre id="314e82c0-b8a3-48e7-ae94-ff7c9fc79dfb" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> product_types<span class="token punctuation">(</span>
+    id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    name <span class="token keyword">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> video_products<span class="token punctuation">(</span>
+    id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    name <span class="token keyword">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    product_type_id <span class="token keyword">INTEGER</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>product_type_id<span class="token punctuation">)</span> <span class="token keyword">REFERENCES</span> product_types<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><h3 id="8103b2c6-d784-4f11-b3ff-00eb0d6adbec" class="">Связь «многие-ко-многим»</h3><ul id="6b191e6f-3308-44e6-a5db-a36b7606521d" class="bulleted-list"><li style="list-style-type:disc">У фильма может быть один или несколько режиссёров.</li></ul><ul id="87895290-ecba-4f6c-802c-f12ea16ba400" class="bulleted-list"><li style="list-style-type:disc">Режиссёр может снять один или несколько фильмов.</li></ul><p id="3fc34ea3-0960-4302-8c71-06e98321a53f" class="">Для такой связи используется промежуточная таблица:</p><figure id="04d51b0c-4aa7-46a9-99ad-5f89b77b9aea" class="image"><a href="./SQL _ Я.Шпора_files/Untitled 2.png"><img style="width:2880px" src="./SQL _ Я.Шпора_files/Untitled 2.png"></a></figure><p id="29fc459f-d11b-4986-a613-c9d3143af5c1" class="">Эту структуру можно создать с помощью таких запросов:</p><pre id="536a5c37-2450-423a-a117-1e7b70a1a86f" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> video_products<span class="token punctuation">(</span>
+    id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    name <span class="token keyword">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> directors<span class="token punctuation">(</span>
+    id <span class="token keyword">INTEGER</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    name <span class="token keyword">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>
+    lastname <span class="token keyword">TEXT</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Создаём промежуточную таблицу:</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> video_products_directors<span class="token punctuation">(</span>    
+    director_id <span class="token keyword">INTEGER</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    video_product_id <span class="token keyword">INTEGER</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    <span class="token comment">-- Пару полей назначаем композитным первичным ключом:</span>
+    <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span>director_id<span class="token punctuation">,</span> video_product_id<span class="token punctuation">)</span>
+    <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>director_id<span class="token punctuation">)</span> <span class="token keyword">REFERENCES</span> directors<span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">FOREIGN</span> <span class="token keyword">KEY</span><span class="token punctuation">(</span>video_product_id<span class="token punctuation">)</span> <span class="token keyword">REFERENCES</span> video_products<span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><h2 id="c9bc59d6-26a5-4790-9799-86f17da2f26c" class="">Получение данных из БД</h2><p id="d4ee5ee7-471e-46e4-bdfc-9a22a232be67" class="">Самые востребованные операторы и ключевые слова для запросов; они должны указываться именно в таком порядке:</p><pre id="04835a5c-1d1f-4d3f-8bc3-d5b0a0514754" class="code language-sql" tabindex="0"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">
+<span class="token keyword">SELECT</span> <span class="token comment">-- столбцы через запятую | обязательное поле</span>
+<span class="token comment">-- (* - для выбора всех столбцов)</span>
+<span class="token comment">-- могут применяться агрегатные функции COUNT, MIN, MAX, AVG и SUM</span>
+<span class="token comment">-- и ключевое слово DISTINCT</span>
+<span class="token keyword">FROM</span> <span class="token comment">-- таблица | обязательное поле</span>
+<span class="token keyword">WHERE</span> <span class="token comment">-- условие/фильтрация</span>
+<span class="token keyword">GROUP</span> <span class="token keyword">BY</span> <span class="token comment">-- столбец, по которому нужно сгруппировать данные</span>
+<span class="token keyword">HAVING</span> <span class="token comment">-- условие/фильтрация на уровне сгруппированных данных</span>
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> <span class="token comment">-- столбец, по которому нужно отсортировать вывод</span>
+<span class="token keyword">LIMIT</span> <span class="token comment">-- сколько записей показывать</span>
+<span class="token keyword">OFFSET</span> <span class="token comment">-- на сколько строк сдвинуть выборку</span>
+<span class="token punctuation">;</span> <span class="token comment">-- в конце запроса обязательно ставится точка с запятой</span></code></pre><h3 id="750cce8c-75f1-4360-9ad1-2658aca115db" class="">Запросы для получения данных</h3><p id="59b4ec75-3ce7-4248-a518-bb838f146b45" class="">Пример запроса с <strong>фильтрацией</strong>:</p><pre id="ae396110-1888-467e-9933-47421893edf2" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">SELECT</span> name       
+<span class="token keyword">FROM</span> video_products
+<span class="token keyword">WHERE</span> <span class="token keyword">type</span> <span class="token operator">LIKE</span> <span class="token string">'Мульт%'</span> <span class="token operator">AND</span> release_year <span class="token operator">&gt;</span> <span class="token number">1988</span><span class="token punctuation">;</span></code></pre><p id="0fff7a70-d302-45c0-915d-d5cff7449256" class="">Пример с <strong>ограничением</strong> и <strong>сдвигом</strong> выборки:</p><pre id="4d1a49e3-539f-4bb2-8ae2-1c113878c842" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">SELECT</span> name<span class="token punctuation">,</span>
+       lastname
+<span class="token keyword">FROM</span> directors
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> lastname
+<span class="token keyword">LIMIT</span> <span class="token number">2</span> <span class="token keyword">OFFSET</span> <span class="token number">2</span><span class="token punctuation">;</span></code></pre><p id="7981680e-3061-44d7-a62a-1cf506b62128" class=""><strong>Агрегирующие функции</strong>:</p><p id="5cf1eca2-5d4f-4c2c-8728-57871dadef09" class=""><strong>COUNT </strong>возвращает количество строк в результирующей выборке.</p><p id="3ae6de69-f835-4412-8866-e5a202559d61" class=""><strong>MIN</strong> и <strong>MAX</strong> — максимальное или минимальное значения в выборке.</p><p id="7b85a54d-da29-47da-ba4e-fbacdf09fd5f" class=""><strong>AVG</strong> — среднее арифметическое значение в выборке.</p><p id="fc9e3207-d1e0-4b9c-a22c-6907b29a6823" class=""><strong>SUM</strong> — сумма.</p><p id="5cc9bbba-68c1-4923-9547-d23c4abb27f7" class="">Пример запроса: </p><pre id="1312c25b-3845-4308-a302-69a57cdc5230" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+<span class="token keyword">FROM</span> video_products
+<span class="token keyword">WHERE</span> product_type_id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+</code></pre><p id="21d64b41-442d-4bab-b22b-207cf2e5f2b3" class="">Пример запроса с <strong>группировкой</strong> и <strong>фильтрацией</strong> по сгруппированным данным:</p><pre id="821044dc-a9c0-46b4-a9f2-16b5ffdf8f47" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">SELECT</span> name<span class="token punctuation">,</span>
+       <span class="token function">COUNT</span><span class="token punctuation">(</span>product_type_id<span class="token punctuation">)</span>
+<span class="token keyword">FROM</span> video_products
+<span class="token keyword">GROUP</span> <span class="token keyword">BY</span> product_type_id
+<span class="token keyword">HAVING</span> <span class="token function">COUNT</span><span class="token punctuation">(</span>product_type_id<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre><h2 id="7024c402-2bfd-4e21-a780-800d74970fce" class="">JOIN</h2><p id="b6a65e85-464e-4585-b767-a06eef93d71a" class="">Есть пять видов JOIN:</p><figure id="da475884-c123-4fce-b7f7-c664461f7d59" class="image"><a href="./SQL _ Я.Шпора_files/S02_231.png"><img style="width:2160px" src="./SQL _ Я.Шпора_files/S02_231.png"></a></figure><p id="6ed4f886-4753-4425-8e22-9f4f2719bebd" class="">Пример запроса:</p><pre id="89f60d19-d67e-4469-af63-83185364c1b6" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token keyword">SELECT</span> 
+	video_products<span class="token punctuation">.</span>name<span class="token punctuation">,</span>
+	product_types<span class="token punctuation">.</span>name
+<span class="token keyword">FROM</span>
+	video_products
+<span class="token keyword">LEFT</span> <span class="token keyword">JOIN</span> product_types <span class="token keyword">ON</span> video_products<span class="token punctuation">.</span>product_type_id <span class="token operator">=</span> product_types<span class="token punctuation">.</span>id</code></pre><h3 id="01899a62-32d4-4bcd-a1e0-5b52c9173dcc" class="">Изменение таблицы: ALTER TABLE</h3><pre id="ccfbf48d-2362-4bf8-8119-29b5393daeba" class="code language-sql" tabindex="0"><code class="language-sql"><span class="token comment">-- Переименование таблицы:</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> <span class="token operator">&lt;</span>имя таблицы<span class="token operator">&gt;</span> <span class="token keyword">RENAME</span> <span class="token keyword">TO</span> <span class="token operator">&lt;</span>новое имя таблицы<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Добавление колонки:</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> <span class="token operator">&lt;</span>название таблицы<span class="token operator">&gt;</span> 
+<span class="token keyword">ADD</span> <span class="token keyword">COLUMN</span> <span class="token operator">&lt;</span>имя колонки<span class="token operator">&gt;</span> <span class="token operator">&lt;</span>тип колонки<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Переименование колонки:</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> <span class="token operator">&lt;</span>название таблицы<span class="token operator">&gt;</span>
+<span class="token keyword">RENAME</span> <span class="token keyword">COLUMN</span> <span class="token operator">&lt;</span>старое имя колонки<span class="token operator">&gt;</span> <span class="token keyword">TO</span> <span class="token operator">&lt;</span>новое имя колонки<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Удаление колонки (в классическом SQL):</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> <span class="token operator">&lt;</span>название таблицы<span class="token operator">&gt;</span>
+<span class="token keyword">DROP</span> <span class="token keyword">COLUMN</span> <span class="token operator">&lt;</span>имя колонки<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Удаление таблицы:</span>
+<span class="token keyword">DROP</span> <span class="token keyword">TABLE</span> <span class="token operator">&lt;</span>имя таблицы<span class="token operator">&gt;</span><span class="token punctuation">;</span></code></pre><p id="c6edbfe0-e47b-4329-befd-8f9406c78fb8" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span>
+<div id="footer">
+	<div id="saying" class="sans">
+		<div class="text">Шпаргалка — это карта, помогающая мудрому мореплавателю выбрать путь.</div> 
+        <div class="src">Ягдетто Там, испанский мореплаватель</div>
+	</div>
+</div>
+<deepl-input-controller><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div dir="ltr" style="visibility: initial !important;"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller></body></html>
